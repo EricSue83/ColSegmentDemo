@@ -9,7 +9,7 @@
 #import "CollectionSegment.h"
 #import "CollectionViewCell.h"
 
-#define KItemWidth  [[UIScreen mainScreen] bounds].size.width/4
+#define KItemWidth  [[UIScreen mainScreen] bounds].size.width/4 //如果结果为 x.5，可能会有缝隙
 
 @interface CollectionSegment()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 @property(nonatomic, strong)UICollectionView* collectionView;
@@ -21,14 +21,14 @@
     if (self) {
         UICollectionViewFlowLayout* flowLayout = [[UICollectionViewFlowLayout alloc] init];
         flowLayout.minimumInteritemSpacing = 0;
-        flowLayout.minimumLineSpacing = 0;
+        flowLayout.minimumLineSpacing = 1; //分隔线，设置为0，会有缝隙，因为item宽度为x.5
         flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         flowLayout.itemSize = CGSizeMake(KItemWidth, self.bounds.size.height);
         
         _collectionView = [[UICollectionView  alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height) collectionViewLayout:flowLayout];
         
         [_collectionView registerClass:[CollectionViewCell class] forCellWithReuseIdentifier:@"CSCell"];
-
+        _collectionView.backgroundColor = [UIColor redColor]; //设置为分隔线颜色
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.bounces = NO;
